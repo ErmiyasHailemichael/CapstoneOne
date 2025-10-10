@@ -23,6 +23,7 @@ CapstoneOne/
     └── generated-sources/
         └── annotations/
 ```
+-----------------------------------------
 ## Project Management
 
 This project was managed using a Trello board to track backlog, tasks, and progress.  
