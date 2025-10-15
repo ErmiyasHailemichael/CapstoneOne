@@ -1,11 +1,22 @@
 package com.pluralsight;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class LedgerApp {
     static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
+
+        // test for transaction manager - tbd
+        List<Transaction> transactions = TransactionManager.loadTransactionFromFile("src/data/transactions.csv");
+        System.out.println("Loading transactions..." + transactions.size() + " transactions");
+        for (Transaction transaction : transactions) {
+            System.out.println(transaction);
+        }
+
+
         boolean isMenuStillRunning = false;
         while (!isMenuStillRunning) {
             isMenuStillRunning = homeScreenDisplay();
