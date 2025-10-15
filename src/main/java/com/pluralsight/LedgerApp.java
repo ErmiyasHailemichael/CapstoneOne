@@ -1,6 +1,7 @@
 package com.pluralsight;
 
-import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Scanner;
 
@@ -9,20 +10,43 @@ public class LedgerApp {
 
     public static void main(String[] args) {
 
-        // test for transaction manager - tbd
-        List<Transaction> transactions = TransactionManager.loadTransactionFromFile("src/data/transactions.csv");
-        System.out.println("Loading transactions..." + transactions.size() + " transactions");
-        for (Transaction transaction : transactions) {
-            System.out.println(transaction);
-        }
+        // Test for transaction manager - tbd
+//        System.out.println("=== TEST 1: Loading transactions ===");
+//        List<Transaction> transactions = TransactionManager.loadTransactionFromFile("src/data/transactions.csv");
+//        System.out.println("Loading transactions..." + transactions.size() + " transactions");
+//        for (Transaction transaction : transactions) {
+//            System.out.println(transaction);
+//        }
+//
+//        System.out.println("\n=== TEST 2: Adding a new transaction ===");
+//        // Test 2: Create a new transaction
+//        Transaction newTransaction = new Transaction(
+//                LocalDate.of(2025, 10, 15),
+//                LocalTime.of(14, 30, 0),
+//                "Coffee and donut",
+//                "Dunkin Donuts",
+//                -8.50
+//        );
+//
+//        // Save it to the file
+//        TransactionManager.saveTransactionToFile("src/data/transactions.csv", newTransaction);
+//
+//        System.out.println("\n=== TEST 3: Loading transactions again ===");
+//        // Test 3: Load again to verify it was saved
+//        transactions = TransactionManager.loadTransactionFromFile("src/data/transactions.csv");
+//        System.out.println("Loaded " + transactions.size() + " transactions:");
+//        for (Transaction transaction : transactions) {
+//            System.out.println(transaction);
+//        }
 
-
+        // Comment out the menu for now - we'll use it later
         boolean isMenuStillRunning = false;
         while (!isMenuStillRunning) {
             isMenuStillRunning = homeScreenDisplay();
         }
         System.out.println("Thank you for using the Accounting Ledger!");
         scanner.close();
+
     }
 
     public static boolean homeScreenDisplay(){

@@ -68,7 +68,7 @@ public class Transaction {
         return amount < 0;
     }
 
-    public String toCsvString(){
+    public String toCsvString() {
         return date + "|" + time + "|" + description + "|" + vendor + "|" + amount + "\n";
     }
 
