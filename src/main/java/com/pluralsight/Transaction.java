@@ -59,7 +59,23 @@ public class Transaction {
         this.amount = amount;
     }
 
+    // Methods
+    public boolean isDeposit(){
+        return amount > 0;
+    }
 
+    public boolean isPayment() {
+        return amount < 0;
+    }
 
+    public String toCsvString(){
+        return date + "|" + time + "|" + description + "|" + vendor + "|" + amount + "\n";
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s | %s | %-25s | %-20s | $%.2f",
+                date, time, description, vendor, amount);
+    }
 
 }
