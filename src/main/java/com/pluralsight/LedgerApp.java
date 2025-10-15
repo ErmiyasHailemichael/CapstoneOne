@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 public class LedgerApp {
     static Scanner scanner = new Scanner(System.in);
+    static List<Transaction> transactions = TransactionManager.loadTransactionFromFile("src/data/transactions.csv");
 
     public static void main(String[] args) {
 
@@ -88,7 +89,29 @@ public class LedgerApp {
 
     public static void addDeposit() {
         System.out.println("\n--- Add Deposit ---");
-        System.out.println("Coming soon!");
+        System.out.println("Enter date (YYYY-MM-DD): ");
+        LocalDate date = LocalDate.parse(scanner.nextLine().trim());
+
+        System.out.println("Enter the time (HH:MM:SS): )");
+        LocalTime time = LocalTime.parse(scanner.nextLine().trim());
+
+        System.out.println("Enter the description: ");
+        String description = scanner.nextLine().trim().toUpperCase();
+
+        System.out.println("Enter the vendor (Who paid you?): ");
+        String vendor = scanner.nextLine().trim();
+
+        System.out.println("Enter the amount: $");
+        double amount = scanner.nextDouble();
+        scanner.nextLine();
+
+        Transaction deposit = new Transaction(date, time, description, vendor, amount);
+
+        transactions.add(deposit);
+        TransactionManager.saveTransactionToFile("src/data/transactions.csv", deposit);
+
+        System.out.println("\n Deposit added successfully!");
+        System.out.println("You add: " + transactions.size() + " transaction(s).");
     }
 
     public static void makePayment() {
