@@ -132,14 +132,94 @@ public class LedgerApp {
         double amount = scanner.nextDouble();
         scanner.nextLine();
 
-        Transaction payment = new Transaction(date, time, description, vendor, -amount);
+        Transaction payment = new Transaction(date, time, description, vendor, -amount); // -amount since we are losing money
         transactions.add(payment);
         TransactionManager.saveTransactionToFile("src/data/transactions.csv", payment);
         System.out.println("\n Payment added successfully!");
     }
 
     public static void displayLedgerScreen() {
-        System.out.println("\n--- Ledger Screen ---");
+        boolean backToHome = false;
+
+        while (!backToHome) {
+            String options = """
+                
+                =======================================
+                         LEDGER SCREEN
+                =======================================
+                
+                  A) All - Display all entries
+                  D) Deposits - Display only deposits
+                  P) Payments - Display only payments
+                  R) Reports - Pre-defined reports
+                  H) Home - Back to home screen
+                
+                Please select an option: """;
+
+            System.out.print(options);
+            String choice = scanner.nextLine().trim().toUpperCase();
+
+            switch (choice) {
+                case "A":
+                    displayAllEntries();
+                    break;
+                case "D":
+                    displayDeposits();
+                    break;
+                case "P":
+                    displayPayments();
+                    break;
+                case "R":
+                    displayReportsScreen();
+                    break;
+                case "H":
+                    backToHome = true;  // Exit ledger, return to home
+                    break;
+                default:
+                    System.out.println("Invalid option. Try again.");
+                    break;
+            }
+        }
+    }
+    public static void displayAllEntries() {
+        TransactionManager.displayAllTransactions(transactions);
+    }
+
+    public static void displayDeposits() {
+        List<Transaction> deposits = TransactionManager.getDeposits(transactions);
+
+        if (deposits.isEmpty()) {
+            System.out.println("\nNo deposits found.\n");
+            return;
+        }
+
+        System.out.println("\n=== Deposits Only ===");
+        // Display newest first
+        for (int i = deposits.size() - 1; i >= 0; i--) {
+            System.out.println(deposits.get(i));
+        }
+        System.out.println();
+    }
+
+    public static void displayPayments() {
+        List<Transaction> payments = TransactionManager.getPayments(transactions);
+
+        if (payments.isEmpty()) {
+            System.out.println("\nNo payments found.\n");
+            return;
+        }
+
+        System.out.println("\n=== Payments Only ===");
+        // Display newest first
+        for (int i = payments.size() - 1; i >= 0; i--) {
+            System.out.println(payments.get(i));
+        }
+        System.out.println();
+    }
+
+    public static void displayReportsScreen() {
+        System.out.println("\n--- Reports Screen ---");
         System.out.println("Coming soon!");
     }
+
 }

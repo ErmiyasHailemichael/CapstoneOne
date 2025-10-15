@@ -49,4 +49,41 @@ public static List<Transaction> loadTransactionFromFile(String fileName){
         System.out.println("Error saving transaction: " +e.getMessage());
     }
     }
+
+    // Display all transactions - newest first
+    public static void displayAllTransactions(List<Transaction> transactions) {
+        if (transactions.isEmpty()) {
+            System.out.println("\nNo transactions found.\n");
+            return;
+        }
+
+        System.out.println("\n=== All Transactions ===");
+        // Loop to show newest first
+        for (int i = transactions.size() - 1; i >= 0; i--) {
+            System.out.println(transactions.get(i));
+        }
+        System.out.println();
+    }
+
+    // Get only deposits
+    public static List<Transaction> getDeposits(List<Transaction> transactions) {
+        List<Transaction> deposits = new ArrayList<>();
+        for (Transaction transaction : transactions) {
+            if (transaction.isDeposit()) {
+                deposits.add(transaction);
+            }
+        }
+        return deposits;
+    }
+
+    // Get only payments
+    public static List<Transaction> getPayments(List<Transaction> transactions) {
+        List<Transaction> payments = new ArrayList<>();
+        for (Transaction transaction : transactions) {
+            if (transaction.isPayment()) {
+                payments.add(transaction);
+            }
+        }
+        return payments;
+    }
 }

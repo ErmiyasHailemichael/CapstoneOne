@@ -10,6 +10,7 @@ CapstoneOne/
 │   │   ├── java/
 │   │   │   └── com/pluralsight/
 │   │   │       └── Main.java
+|   |   |
 │   │   └── resources/
 │   │
 │   └── test/
@@ -30,7 +31,5 @@ This project was managed using a Trello board to track backlog, tasks, and progr
 You can view the live board here:  
 👉 [Trello Board – Capstone 1: Accounting Ledger Application](https://trello.com/invite/b/64035649c0865d917d538afd/ATTIff978d1d098dc9098b5da87d80dd689a6E424CC6/capstone-1-accounting-ledger-application)
 
-![Trello Board Screenshot](assets/TrelloBoard.png)
-
-
+![TrelloProjectBoard.png](TrelloProjectBoard.png)
 
