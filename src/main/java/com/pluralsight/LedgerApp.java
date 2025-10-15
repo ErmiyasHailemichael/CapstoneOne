@@ -111,12 +111,31 @@ public class LedgerApp {
         TransactionManager.saveTransactionToFile("src/data/transactions.csv", deposit);
 
         System.out.println("\n Deposit added successfully!");
-        System.out.println("You add: " + transactions.size() + " transaction(s).");
     }
 
     public static void makePayment() {
         System.out.println("\n--- Make Payment ---");
-        System.out.println("Coming soon!");
+
+        LocalDate date = LocalDate.now();
+        LocalTime time = LocalTime.now();
+
+        System.out.println("Date: " + date);
+        System.out.println("Time: " + time);
+
+        System.out.println("Enter description: ");
+        String description = scanner.nextLine().trim();
+
+        System.out.println("Enter the vendor (Who you paid?): ");
+        String vendor = scanner.nextLine().trim();
+
+        System.out.println("Enter the amount: $");
+        double amount = scanner.nextDouble();
+        scanner.nextLine();
+
+        Transaction payment = new Transaction(date, time, description, vendor, -amount);
+        transactions.add(payment);
+        TransactionManager.saveTransactionToFile("src/data/transactions.csv", payment);
+        System.out.println("\n Payment added successfully!");
     }
 
     public static void displayLedgerScreen() {
