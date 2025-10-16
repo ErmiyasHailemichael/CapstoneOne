@@ -86,4 +86,28 @@ public static List<Transaction> loadTransactionFromFile(String fileName){
         }
         return payments;
     }
+
+    // Get transactions within a date range
+    public static List<Transaction> getTransactionsByDateRange(List<Transaction> transactions, LocalDate startDate, LocalDate endDate) {
+        List<Transaction> filtered = new ArrayList<>();
+        for (Transaction transaction : transactions) {
+            // Check if transaction date is between start and end (inclusive)
+            if (!transaction.getDate().isBefore(startDate) && !transaction.getDate().isAfter(endDate)) {
+                filtered.add(transaction);
+            }
+        }
+        return filtered;
+    }
+
+    // Search transactions by vendor name
+    public static List<Transaction> getTransactionsByVendor(List<Transaction> transactions, String vendorName) {
+        List<Transaction> filtered = new ArrayList<>();
+        for (Transaction transaction : transactions) {
+            // Case-insensitive partial match
+            if (transaction.getVendor().toLowerCase().contains(vendorName.toLowerCase())) {
+                filtered.add(transaction);
+            }
+        }
+        return filtered;
+    }
 }

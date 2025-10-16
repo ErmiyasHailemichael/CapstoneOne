@@ -11,7 +11,7 @@ public class LedgerApp {
 
     public static void main(String[] args) {
 
-        // Test for transaction manager - tbd
+        // Test for transaction manager
 //        System.out.println("=== TEST 1: Loading transactions ===");
 //        List<Transaction> transactions = TransactionManager.loadTransactionFromFile("src/data/transactions.csv");
 //        System.out.println("Loading transactions..." + transactions.size() + " transactions");
@@ -29,7 +29,6 @@ public class LedgerApp {
 //                -8.50
 //        );
 //
-//        // Save it to the file
 //        TransactionManager.saveTransactionToFile("src/data/transactions.csv", newTransaction);
 //
 //        System.out.println("\n=== TEST 3: Loading transactions again ===");
@@ -40,7 +39,6 @@ public class LedgerApp {
 //            System.out.println(transaction);
 //        }
 
-        // Comment out the menu for now - we'll use it later
         boolean isMenuStillRunning = false;
         while (!isMenuStillRunning) {
             isMenuStillRunning = homeScreenDisplay();
@@ -78,13 +76,13 @@ public class LedgerApp {
                 displayLedgerScreen();
                 break;
             case "X":
-                return true;  // Exit program
+                return true;
             default:
                 System.out.println("Invalid option. Try again.");
                 break;
         }
 
-        return false;  // Continue program
+        return false;
     }
 
     public static void addDeposit() {
@@ -122,7 +120,7 @@ public class LedgerApp {
         // Create the transaction
         Transaction deposit = new Transaction(date, time, description, vendor, amount);
 
-        // Add to list and save
+        //
         transactions.add(deposit);
         TransactionManager.saveTransactionToFile("src/data/transactions.csv", deposit);
 
@@ -191,7 +189,7 @@ public class LedgerApp {
                     displayReportsScreen();
                     break;
                 case "H":
-                    backToHome = true;  // Exit ledger, return to home
+                    backToHome = true;
                     break;
                 default:
                     System.out.println("Invalid option. Try again.");
@@ -236,8 +234,149 @@ public class LedgerApp {
     }
 
     public static void displayReportsScreen() {
-        System.out.println("\n--- Reports Screen ---");
-        System.out.println("Coming soon!");
+        boolean backToLedger = false;
+
+        while (!backToLedger) {
+            String options = """
+                
+                =======================================
+                         REPORTS SCREEN
+                =======================================
+                
+                  1) Month To Date
+                  2) Previous Month
+                  3) Year To Date
+                  4) Previous Year
+                  5) Search by Vendor
+                  0) Back - Return to Ledger
+                
+                Please select an option: """;
+
+            System.out.print(options);
+            String choice = scanner.nextLine().trim();
+
+            switch (choice) {
+                case "1":
+                    displayMonthToDate();
+                    break;
+                case "2":
+                    displayPreviousMonth();
+                    break;
+                case "3":
+                    displayYearToDate();
+                    break;
+                case "4":
+                    displayPreviousYear();
+                    break;
+                case "5":
+                    searchByVendor();
+                    break;
+                case "0":
+                    backToLedger = true;  // back to Ledger
+                    break;
+                default:
+                    System.out.println("Invalid option. Try again.");
+                    break;
+            }
+        }
+    }
+    public static void displayMonthToDate() {
+        LocalDate today = LocalDate.now();
+        LocalDate startOfMonth = LocalDate.of(today.getYear(), today.getMonth(), 1);
+
+        List<Transaction> filtered = TransactionManager.getTransactionsByDateRange(transactions, startOfMonth, today);
+
+        if (filtered.isEmpty()) {
+            System.out.println("\nNo transactions found for this month.\n");
+            return;
+        }
+
+        System.out.println("\n=== Month To Date (" + startOfMonth + " to " + today + ") ===");
+        // Display newest first
+        for (int i = filtered.size() - 1; i >= 0; i--) {
+            System.out.println(filtered.get(i));
+        }
+        System.out.println();
+    }
+
+    public static void displayPreviousMonth() {
+        LocalDate today = LocalDate.now();
+        LocalDate lastMonth = today.minusMonths(1);
+        LocalDate startOfLastMonth = LocalDate.of(lastMonth.getYear(), lastMonth.getMonth(), 1);
+        LocalDate endOfLastMonth = startOfLastMonth.plusMonths(1).minusDays(1);
+
+        List<Transaction> filtered = TransactionManager.getTransactionsByDateRange(transactions, startOfLastMonth, endOfLastMonth);
+
+        if (filtered.isEmpty()) {
+            System.out.println("\nNo transactions found for previous month.\n");
+            return;
+        }
+
+        System.out.println("\n=== Previous Month (" + startOfLastMonth + " to " + endOfLastMonth + ") ===");
+        // Display newest first
+        for (int i = filtered.size() - 1; i >= 0; i--) {
+            System.out.println(filtered.get(i));
+        }
+        System.out.println();
+    }
+
+    public static void displayYearToDate() {
+        LocalDate today = LocalDate.now();
+        LocalDate startOfYear = LocalDate.of(today.getYear(), 1, 1);
+
+        List<Transaction> filtered = TransactionManager.getTransactionsByDateRange(transactions, startOfYear, today);
+
+        if (filtered.isEmpty()) {
+            System.out.println("\nNo transactions found for this year.\n");
+            return;
+        }
+
+        System.out.println("\n=== Year To Date (" + startOfYear + " to " + today + ") ===");
+        // Display newest first
+        for (int i = filtered.size() - 1; i >= 0; i--) {
+            System.out.println(filtered.get(i));
+        }
+        System.out.println();
+    }
+
+    public static void displayPreviousYear() {
+        LocalDate today = LocalDate.now();
+        int lastYear = today.getYear() - 1;
+        LocalDate startOfLastYear = LocalDate.of(lastYear, 1, 1);
+        LocalDate endOfLastYear = LocalDate.of(lastYear, 12, 31);
+
+        List<Transaction> filtered = TransactionManager.getTransactionsByDateRange(transactions, startOfLastYear, endOfLastYear);
+
+        if (filtered.isEmpty()) {
+            System.out.println("\nNo transactions found for previous year.\n");
+            return;
+        }
+
+        System.out.println("\n=== Previous Year (" + startOfLastYear + " to " + endOfLastYear + ") ===");
+
+        for (int i = filtered.size() - 1; i >= 0; i--) {
+            System.out.println(filtered.get(i));
+        }
+        System.out.println();
+    }
+
+    public static void searchByVendor() {
+        System.out.print("\nEnter vendor name to search: ");
+        String vendorName = scanner.nextLine();
+
+        List<Transaction> filtered = TransactionManager.getTransactionsByVendor(transactions, vendorName);
+
+        if (filtered.isEmpty()) {
+            System.out.println("\nNo transactions found for vendor: " + vendorName + "\n");
+            return;
+        }
+
+        System.out.println("\n=== Transactions for Vendor: " + vendorName + " ===");
+
+        for (int i = filtered.size() - 1; i >= 0; i--) {
+            System.out.println(filtered.get(i));
+        }
+        System.out.println();
     }
 
 }
