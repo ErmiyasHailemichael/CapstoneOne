@@ -11,11 +11,10 @@ Transactions are stored in a `.csv` file for persistence.
 
 
 ```CapstoneOne/
-│
+
 ├── src/
 │ ├── Data/
 │ │ └── transactions.csv
-│ │
 │ ├── main/
 │ │ ├── java/
 │ │ │ └── com/pluralsight/
@@ -25,15 +24,7 @@ Transactions are stored in a `.csv` file for persistence.
 │ │ │ ├── Transaction.java
 │ │ │ └── TransactionManager.java
 | | | └── Main.class
-│ │ │
-│ │ └── resources/
-│ │
-│ └── test/
-│ └── java/
-│
-└── target/
-└── generated-sources/
-└── annotations/
+
 ```
 -----------------------------------------
 ## ⚙️ Features
@@ -60,10 +51,7 @@ Transactions are stored in a `.csv` file for persistence.
 This project was managed using a Trello board to track backlog, tasks, and progress.  
 You can view the live board here:  
 👉 [Trello Board – Capstone 1: Accounting Ledger Application](https://trello.com/invite/b/64035649c0865d917d538afd/ATTIff978d1d098dc9098b5da87d80dd689a6E424CC6/capstone-1-accounting-ledger-application)
-
-![TrelloProjectBoard.png](TrelloProjectBoard.png)
-
-------------------
+-----------------
 
 ## Tools and Technologies
 

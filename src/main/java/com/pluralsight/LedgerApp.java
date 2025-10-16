@@ -11,34 +11,6 @@ public class LedgerApp {
 
     public static void main(String[] args) {
 
-        // Test for transaction manager
-//        System.out.println("=== TEST 1: Loading transactions ===");
-//        List<Transaction> transactions = TransactionManager.loadTransactionFromFile("src/data/transactions.csv");
-//        System.out.println("Loading transactions..." + transactions.size() + " transactions");
-//        for (Transaction transaction : transactions) {
-//            System.out.println(transaction);
-//        }
-//
-//        System.out.println("\n=== TEST 2: Adding a new transaction ===");
-//        // Test 2: Create a new transaction
-//        Transaction newTransaction = new Transaction(
-//                LocalDate.of(2025, 10, 15),
-//                LocalTime.of(14, 30, 0),
-//                "Coffee and donut",
-//                "Dunkin Donuts",
-//                -8.50
-//        );
-//
-//        TransactionManager.saveTransactionToFile("src/data/transactions.csv", newTransaction);
-//
-//        System.out.println("\n=== TEST 3: Loading transactions again ===");
-//        // Test 3: Load again to verify it was saved
-//        transactions = TransactionManager.loadTransactionFromFile("src/data/transactions.csv");
-//        System.out.println("Loaded " + transactions.size() + " transactions:");
-//        for (Transaction transaction : transactions) {
-//            System.out.println(transaction);
-//        }
-
         boolean isMenuStillRunning = false;
         while (!isMenuStillRunning) {
             isMenuStillRunning = homeScreenDisplay();
@@ -120,7 +92,6 @@ public class LedgerApp {
         // Create the transaction
         Transaction deposit = new Transaction(date, time, description, vendor, amount);
 
-        //
         transactions.add(deposit);
         TransactionManager.saveTransactionToFile("src/data/transactions.csv", deposit);
 
