@@ -88,30 +88,48 @@ public class LedgerApp {
     }
 
     public static void addDeposit() {
-        System.out.println("\n--- Add Deposit ---");
-        System.out.println("Enter date (YYYY-MM-DD): ");
-        LocalDate date = LocalDate.parse(scanner.nextLine().trim());
+        System.out.println("\n=== Add Deposit ===");
 
-        System.out.println("Enter the time (HH:MM:SS): )");
-        LocalTime time = LocalTime.parse(scanner.nextLine().trim());
+        // Ask if the user want to use today date
+        System.out.print("Use today's date? (Y/N): ");
+        String useTodayChoice = scanner.nextLine().trim();
 
-        System.out.println("Enter the description: ");
-        String description = scanner.nextLine().trim().toUpperCase();
+        LocalDate date;
+        if (useTodayChoice.equals("Y")) {
+            date = LocalDate.now();
+        } else {
+            System.out.print("Enter date (YYYY-MM-DD): ");
+            date = LocalDate.parse(scanner.nextLine());
+        }
 
-        System.out.println("Enter the vendor (Who paid you?): ");
-        String vendor = scanner.nextLine().trim();
+        // use current time
+        LocalTime time = LocalTime.now();
 
-        System.out.println("Enter the amount: $");
+        System.out.println("Date: " + date);
+        System.out.println("Time: " + time);
+
+        // Collect deposit information
+        System.out.print("Enter description: ");
+        String description = scanner.nextLine();
+
+        System.out.print("Enter vendor (who paid you): ");
+        String vendor = scanner.nextLine();
+
+        System.out.print("Enter amount: $");
         double amount = scanner.nextDouble();
         scanner.nextLine();
 
+        // Create the transaction
         Transaction deposit = new Transaction(date, time, description, vendor, amount);
 
+        // Add to list and save
         transactions.add(deposit);
         TransactionManager.saveTransactionToFile("src/data/transactions.csv", deposit);
 
-        System.out.println("\n Deposit added successfully!");
+        System.out.println("\n Deposit added successfully!\n");
     }
+
+
 
     public static void makePayment() {
         System.out.println("\n--- Make Payment ---");
