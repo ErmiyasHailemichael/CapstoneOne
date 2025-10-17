@@ -10,6 +10,12 @@ public class LedgerApp {
     static List<Transaction> transactions = TransactionManager.loadTransactionFromFile("src/data/transactions.csv");
 
     public static void main(String[] args) {
+        System.out.println("\n");
+        System.out.println("╔═══════════════════════════════════════╗");
+        System.out.println("║       PERSONAL FINANCE TRACKER        ║");
+        System.out.println("║        Manage Your Money Wisely       ║");
+        System.out.println("╚═══════════════════════════════════════╝");
+        System.out.println();
 
         boolean isMenuStillRunning = false;
         while (!isMenuStillRunning) {
