@@ -110,4 +110,52 @@ public static List<Transaction> loadTransactionFromFile(String fileName){
         }
         return filtered;
     }
+    // Custom search
+    public static List<Transaction> customSearch(List<Transaction> transactions,
+                                                 LocalDate startDate, LocalDate endDate,
+                                                 String description, String vendor,
+                                                 Double amount) {
+        List<Transaction> filtered = new ArrayList<>();
+
+        for (Transaction transaction : transactions) {
+            boolean matches = true;
+
+            // Filter by start date
+            if (startDate != null && transaction.getDate().isBefore(startDate)) {
+                matches = false;
+            }
+
+            // Filter by end date
+            if (endDate != null && transaction.getDate().isAfter(endDate)) {
+                matches = false;
+            }
+
+            // Filter by description & case-sensitive
+            if (description != null && !description.isEmpty()) {
+                if (!transaction.getDescription().toLowerCase().contains(description.toLowerCase())) {
+                    matches = false;
+                }
+            }
+
+            // Filter by vendor & case-insensitive
+            if (vendor != null && !vendor.isEmpty()) {
+                if (!transaction.getVendor().toLowerCase().contains(vendor.toLowerCase())) {
+                    matches = false;
+                }
+            }
+
+            // Filter by amount - exact match
+            if (amount != null) {
+                if (Math.abs(transaction.getAmount() - amount) > 0.01) {
+                    matches = false;
+                }
+            }
+
+            if (matches) {
+                filtered.add(transaction);
+            }
+        }
+
+        return filtered;
+    }
 }

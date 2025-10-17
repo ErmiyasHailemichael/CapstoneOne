@@ -1,6 +1,7 @@
 package com.pluralsight;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -12,19 +13,20 @@ public class ReportsScreen {
 
         while (!backToLedger) {
             String options = """
-                
-                =======================================
-                         REPORTS SCREEN
-                =======================================
-                
-                  1) Month To Date
-                  2) Previous Month
-                  3) Year To Date
-                  4) Previous Year
-                  5) Search by Vendor
-                  0) Back - Return to Ledger
-                
-                Please select an option: """;
+            
+            =======================================
+                     REPORTS SCREEN
+            =======================================
+            
+              1) Month To Date
+              2) Previous Month
+              3) Year To Date
+              4) Previous Year
+              5) Search by Vendor
+              6) Custom Search
+              0) Back - Return to Ledger
+            
+            Please select an option: """;
 
             System.out.print(options);
             String choice = scanner.nextLine().trim();
@@ -44,6 +46,9 @@ public class ReportsScreen {
                     break;
                 case "5":
                     searchByVendor(scanner, transactions);
+                    break;
+                case "6":
+                    customSearch(scanner, transactions);
                     break;
                 case "0":
                     backToLedger = true;
@@ -145,5 +150,91 @@ public class ReportsScreen {
             System.out.println(transactions.get(i));
         }
         System.out.println();
+    }
+    private static void customSearch(Scanner scanner, List<Transaction> transactions) {
+        System.out.println("\n=== Custom Search ===");
+        System.out.println("Leave any field blank to skip that filter.\n");
+
+        // Start Date
+        LocalDate startDate = null;
+        System.out.print("Start Date (YYYY-MM-DD) or press Enter to skip: ");
+        String startDateInput = scanner.nextLine().trim();
+        if (!startDateInput.isEmpty()) {
+            try {
+                startDate = LocalDate.parse(startDateInput);
+            } catch (Exception e) {
+                System.out.println("Invalid date format. Skipping start date filter.");
+            }
+        }
+
+        // End Date
+        LocalDate endDate = null;
+        System.out.print("End Date (YYYY-MM-DD) or press Enter to skip: ");
+        String endDateInput = scanner.nextLine().trim();
+        if (!endDateInput.isEmpty()) {
+            try {
+                endDate = LocalDate.parse(endDateInput);
+            } catch (Exception e) {
+                System.out.println("Invalid date format. Skipping end date filter.");
+            }
+        }
+
+        // Description
+        String description = null;
+        System.out.print("Description (partial match) or press Enter to skip: ");
+        String descInput = scanner.nextLine().trim();
+        if (!descInput.isEmpty()) {
+            description = descInput;
+        }
+
+        // Vendor
+        String vendor = null;
+        System.out.print("Vendor (partial match) or press Enter to skip: ");
+        String vendorInput = scanner.nextLine().trim();
+        if (!vendorInput.isEmpty()) {
+            vendor = vendorInput;
+        }
+
+        // Amount
+        Double amount = null;
+        System.out.print("Amount (exact match) or press Enter to skip: $");
+        String amountInput = scanner.nextLine().trim();
+        if (!amountInput.isEmpty()) {
+            try {
+                amount = Double.parseDouble(amountInput);
+            } catch (Exception e) {
+                System.out.println("Invalid amount format. Skipping amount filter.");
+            }
+        }
+
+        // Perform search
+        List<Transaction> filtered = TransactionManager.customSearch(
+                transactions, startDate, endDate, description, vendor, amount
+        );
+
+        // Display results
+        if (filtered.isEmpty()) {
+            System.out.println("\n No transactions found matching your criteria.\n");
+            return;
+        }
+
+        // Show what filters were applied
+        System.out.println("\nFound " + filtered.size() + " transaction(s)");
+        System.out.print("Filters applied: ");
+        List<String> appliedFilters = new ArrayList<>();
+        if (startDate != null) appliedFilters.add("Start Date: " + startDate);
+        if (endDate != null) appliedFilters.add("End Date: " + endDate);
+        if (description != null) appliedFilters.add("Description: '" + description + "'");
+        if (vendor != null) appliedFilters.add("Vendor: '" + vendor + "'");
+        if (amount != null) appliedFilters.add("Amount: $" + amount);
+
+        if (appliedFilters.isEmpty()) {
+            System.out.println("None (showing all)");
+        } else {
+            System.out.println(String.join(", ", appliedFilters));
+        }
+
+        System.out.println("\n=== Search Results ===");
+        displayNewestFirst(filtered);
     }
 }
